@@ -16,8 +16,12 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //Declare your views here
-    Button one;
+    Button one, two, three, four,five, six,seven, eight, nine,zero,
+            add,subtract,divide, multiply,equal;
     TextView result;
+    //operation -> define the current operation
+    //firstVariable -> first operand for the operation
+    //secondVariable -> second operand for the operation
     String operation = "", firstVariable, secondVariable = "";
 
     @Override
@@ -30,25 +34,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Link the widgets with the respective views in the layout file
         one = (Button) findViewById(R.id.one);
+        two = (Button) findViewById(R.id.two);
+        three = (Button) findViewById(R.id.three);
+        four= (Button) findViewById(R.id.four);
+        five = (Button) findViewById(R.id.five);
+        six = (Button) findViewById(R.id.six);
+        seven = (Button) findViewById(R.id.seven);
+        eight = (Button) findViewById(R.id.eight);
+        nine = (Button) findViewById(R.id.nine);
+        zero = (Button) findViewById(R.id.zero);
+        add = (Button) findViewById(R.id.add);
+        subtract = (Button) findViewById(R.id.subtract);
+        multiply = (Button) findViewById(R.id.multiply);
+        divide = (Button) findViewById(R.id.divide);
+        equal = (Button) findViewById(R.id.equal);
         result = (TextView) findViewById(R.id.calculation_result);
 
 
-        //Set the click Listener
-        one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /**displaying a Toast
-                 Toast - used to inform the user about an event
-                 - lasts for a few seconds and disappears thereafter
-                 Takes the following parameters as input :
-                 Context - where you want to show the toast
-                 Message - what you want to show in the toast
-                 Duration - for how long you want to show the toast
-                 */
-
-                Toast.makeText(MainActivity.this, one.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        //Set the click Listeners
+        one.setOnClickListener(this);
+        two.setOnClickListener(this);
+        three.setOnClickListener(this);
+        four.setOnClickListener(this);
+        five.setOnClickListener(this);
+        six.setOnClickListener(this);
+        seven.setOnClickListener(this);
+        eight.setOnClickListener(this);
+        nine.setOnClickListener(this);
+        zero.setOnClickListener(this);
+        add.setOnClickListener(this);
+        subtract.setOnClickListener(this);
+        multiply.setOnClickListener(this);
+        divide.setOnClickListener(this);
+        equal.setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.one:
                 result.setText("1");
+
+                //once an operation is chosen the next selected button
+                //becomes our second operand
                 if (!operation.equals(""))
                     secondVariable = "1";
                 break;
@@ -106,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.add:
                 operation = "add";
+                //upon clicking an operation the current value becomes
+                //the first operand
                 firstVariable = result.getText().toString();
 
             case R.id.subtract:
@@ -124,29 +147,80 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.equal:
                 switch (operation) {
                     case "add":
-                        if (!secondVariable.equals("")) {
-                            int addition = Integer.valueOf(firstVariable) + Integer.valueOf(secondVariable);
-                            result.setText(addition);
-                        }
-                        operation = "";
-                        secondVariable = "";
+                        add();
                         break;
 
                     case "subtract":
+                       subtract();
                         break;
 
                     case "multiply":
+                        multiply();
                         break;
 
                     case "divide":
+                        divide();
                         break;
 
                     default:
                         break;
                 }
                 break;
-
-
         }
+    }
+
+
+    /**
+     * Separate the operations into different functions to make the code
+     * more readable.
+     */
+    public void add(){
+        //Ignore the case when equal is clicked just after
+        //choosing an operation
+        if (!secondVariable.equals("")) {
+            int addition = Integer.valueOf(firstVariable) + Integer.valueOf(secondVariable);
+            result.setText(addition);
+        }else{
+            result.setText("");
+        }
+
+        //Set the operation and secondVariable back to the default value
+        operation = "";
+        secondVariable = "";
+    }
+
+    public void subtract(){
+        if (!secondVariable.equals("")) {
+            int addition = Integer.valueOf(firstVariable) - Integer.valueOf(secondVariable);
+            result.setText(addition);
+        }else{
+            result.setText("");
+        }
+        operation = "";
+        secondVariable = "";
+    }
+
+    public void multiply(){
+        if (!secondVariable.equals("")) {
+            int addition = Integer.valueOf(firstVariable)*Integer.valueOf(secondVariable);
+            result.setText(addition);
+        }else{
+            result.setText("");
+        }
+        operation = "";
+        secondVariable = "";
+    }
+
+    public void divide(){
+        if (!secondVariable.equals("")&&!secondVariable.equals("0")) {
+
+            //division of integers may return float
+            float addition = Integer.valueOf(firstVariable)/Integer.valueOf(secondVariable);
+            result.setText(Float.toString(addition));
+        }else{
+            result.setText("");
+        }
+        operation = "";
+        secondVariable = "";
     }
 }
